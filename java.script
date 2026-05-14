@@ -1,0 +1,37 @@
+// Wait until page is fully loaded
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Highlight active navigation link
+    const navLinks = document.querySelectorAll('nav a');
+    const currentPage = window.location.pathname.split('/').pop() || 'home.html';
+ 
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPage) {
+            link.style.fontWeight = 'bold';
+            link.style.textDecoration = 'underline';
+        }
+    });
+ 
+    // 2. Smooth scroll for anchor links
+    navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (href.startsWith('#')) {
+                e.preventDefault();
+                const targetSection = document.querySelector(href);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    });
+ 
+    // 3. Optional: Welcome message (only on home page)
+    if (currentPage === 'home.html') {
+        const heroText = document.querySelector('.hero p');
+        if (heroText) {
+            const hours = new Date().getHours();
+            let greeting = hours < 12 ? 'Good Morning' : hours < 18 ? 'Good Afternoon' : 'Good Evening';
+            heroText.innerHTML = `${greeting}! I design beautiful, user-friendly interfaces.`;
+        }
+    }
+}); 
